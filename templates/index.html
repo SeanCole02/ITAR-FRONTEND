@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block description %}AI powered .jar RAT classification{% endblock %}
+{% block content %}
+        <header class="masthead bg-primary text-itar text-center">
+            <div class="container d-flex align-items-center flex-column" id="lesite" >
+                <!-- <h1 class="masthead-heading mb-0">File</h1>-->
+                <div id="ultra">
+                <div class="buttons" >
+                    <button class="uploadbtns" id="filebutton" onLoad="document.filebutton.focus()">FILE</button>
+                    <button class="uploadbtns" id="discord">DISCORD URL</button>
+                </div>
+                <div id="connection">
+                    <form id="submitform" action="/filehandler" method="POST" enctype = "multipart/form-data">
+                <input type="file" id="fileupload" style="display:none;" accept=".jar" name="file"/>
+                    <label id="fileuploadbtn" class="fileuploadbtn" for="fileupload">Choose File</label>
+                        </form>
+                </div>
+                    </div>
+                <!-- Icon Divider-->
+                <!-- Masthead Subheading-->
+            </div>
+        </header>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/static/js/ssdeep.js" type="text/javascript"></script>
+{#    <script src="/static/js/socket.io.min.js" type="text/javascript"></script>#}
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    <script>
+
+    window.onload = function() {
+      var input = document.getElementById("filebutton");
+      input.classList.add("uploadbtnsredline")
+    }
+    $('#fileupload').change(function(event){
+        var input = document.getElementById("filebutton").focus();
+        var filename = $('input[type=file]').val().split('\\').pop();
+        var span = document.createElement("SPAN");
+        span.innerHTML = filename
+        span.className = 'filename'
+
+        var connectdiv = document.getElementById("submitform")
+        connectdiv.removeChild(connectdiv.lastElementChild)
+        connectdiv.appendChild(span)
+
+        var confirmupload = document.createElement("BUTTON");
+        confirmupload.className = "fileuploadbtn"
+        confirmupload.id = "confirmupload"
+        confirmupload.value = "Confirm Upload"
+        confirmupload.innerHTML = "Confirm Upload"
+        var file = document.getElementById("fileupload").files[0];
+          // alert(file.name+" | "+file.size+" | "+file.type);
+          var formdata = new FormData();
+          formdata.append("fileupload", file);
+
+
+        confirmupload.addEventListener("click", function(){
+            document.getElementById("confirmupload").remove()
+            pg = document.createElement("PROGRESS")
+            pg.value = 0
+            pg.max = 100
+            pg.id = "progressBar"
+            connectdiv.appendChild(pg)
+            ; // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+            console.log(formdata)
+              //use file_upload_parser.php from above url
+
+              function a(callback){
+                var ajax = new XMLHttpRequest();
+                ajax.upload.addEventListener("progress", progressHandler, false);
+                ajax.onload = function(){
+                    callback(ajax.responseText)
+                }
+                ajax.open("POST", "/filehandler")
+                ajax.send(formdata)
+            }
+            a(function (result) {
+    window.location.href = '/score/'+result
+});
+        })
+
+       // confirmupload.setAttribute("type", "submit")
+
+       {# confirmupload.addEventListener("click", function(e){#}
+       {##}
+       {#// var filer = document.getElementById("fileupload").files[0]#}
+       {#  //   console.log(filer)#}
+       {# var file = event.dataTransfer.files[0]#}
+       {# var reader = new FileReader()#}
+       {# reader.onload = function(event) {#}
+       {#     var binary = event.target.result;#}
+       {#     hashvalue = ssdeep.digest(document.getElementById("fileupload").files[0])#}
+       {#     console.log(hashvalue);#}
+       {#   };#}
+       {# reader.readAsBinaryString(file)#}
+       {##}
+       {# })#}
+        //connectdiv.appendChild(br)
+        connectdiv.appendChild(confirmupload)
+
+        //hide label and create a submit button named confirm upload
+    })
+    function progressHandler(event) {
+
+        var percent = ((event.loaded*1.25) / (event.total * 1.5)) * 100;
+  document.getElementById("progressBar").value = Math.round(percent);
+        console.log('t')
+}
+    function discadd(){
+        var filebtn = document.getElementById("filebutton");
+        filebtn.classList.remove("uploadbtnsredline")
+        var discordbtn = document.getElementById("discord");
+        discordbtn.classList.add("uploadbtnsredline")
+        formelement = document.getElementById("submitform")
+        formelement.removeChild(formelement.lastChild)
+        formelement.removeChild(formelement.lastChild)
+        inputtext = document.createElement("INPUT")
+        inputtext.name = "linkinput"
+        inputtext.id = "linkinput"
+        inputtext.type = "text"
+        inputtext.className = 'linkbtn'
+        formelement.appendChild(inputtext)
+        formelement.addEventListener("submit", function(e){
+            document.getElementById("linkinput").innerHTML.replaceAll("/", "\\")
+        })
+        formelement.action = '/linkhandler'
+    }
+    function fileadd(){
+        var discordbtn = document.getElementById("discord");
+        discordbtn.classList.remove("uploadbtnsredline")
+        var filebtn = document.getElementById("filebutton");
+        filebtn.classList.add("uploadbtnsredline")
+        formelement = document.getElementById("submitform")
+        formelement.removeChild(formelement.lastChild)
+        formelement.removeChild(formelement.lastChild)
+        inputlabel = document.createElement("LABEL")
+        inputlabel.id = 'fileuploadbtn'
+        inputlabel.className="fileuploadbtn"
+        inputlabel.setAttribute('for', "fileupload")
+        inputlabel.innerHTML = 'Choose File'
+        formelement.appendChild(inputlabel)
+        formelement.action = '/filehandler'
+    }
+     $(document).ready( function() {
+         $('#discord').on('click', discadd)
+         $('#filebutton').on('click', fileadd)
+         {#socket = io();#}
+         {#socket.on('upload', function(){#}
+         {#    console.log('rcv')#}
+         {#    document.getElementById("ultra").remove()#}
+         {#    newdiv = document.createElement("DIV")#}
+         {#    newdiv.id = "ultra"#}
+         {#    newdiv.innerHTML = "Uploading"#}
+         {#    site = document.getElementById("lesite")#}
+         {#    site.appendChild(newdiv)#}
+         {##}
+         {#})#}
+         {#socket.on('hashing', function(){#}
+         {#   document.getElementById("ultra").innerHTML = "Hashing"#}
+         {#})#}
+         {#socket.on('analysing', function(){#}
+         {#   document.getElementById("ultra").innerHTML = "Analysing"#}
+         {#})#}
+     })
+    function checkhash(e){
+        e.preventDefault();
+
+    }
+    {#rathash = '{{ md5rat|tojson }}'#}
+    {#notrathash = '{{  md5notrat|tojson }}'#}
+    </script>
+{% endblock %}
