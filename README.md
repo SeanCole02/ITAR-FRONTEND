@@ -2,6 +2,8 @@
 
 ITAR-FRONTEND is the frontend of the web-based scanning tool ITAR that helps users identify malicious .jar files . This README file serves as a guide for contributors to adhere to the design philosophy of ITAR and create a user-friendly experience for visitors.
 
+ITAR uses Python-Flask for its frontend.
+
 ## Design Philosophy
 The following UI design philosophy for ITAR must be followed when making changes or submitting pull requests:
 
