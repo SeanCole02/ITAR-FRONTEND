@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block description %}<b>AI powered .jar RAT classification</b> &#x0A; &#x0A;Signature confidence: {{sigstring}} &#x0A; AI Not a RAT confidence: {{ aiconfno }}% &#x0A; AI Is a RAT confidence: {{ aiconfyes }}% &#x0A; &#x0A; Click to see details {% endblock %}
+{% block content %}
+        <header class="masthead bg-primary text-itar text-center" id="site">
+            <div class="container d-flex align-items-center flex-column containersc" id="wrapper" >
+                <!-- <h1 class="masthead-heading mb-0">File</h1>-->
+                <div id="ultra" class="rattext">
+                    {{ str_data }}
+                    <div id="md5">
+                    MD5 Hash: {{ md5hash }}
+                </div>
+                    <div id="cfd">
+                    <span id="confi">Confidence: <span id="confidence"></span>%</span>
+                        <span id="ai_internal"><br>AI Confidence: <span id="aiconfidence"></span>%</span><br><br><br>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <a id="details">Details</a>
+                </div>
+                <!--<div id="ultra2">
+                    <span class="rattext" id="static">Static Analysis</span>
+                </div> -->
+                </div>
+            </div>
+
+        </header>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+    window.history.pushState("", "", '/score/{{ md5hash }}');
+     $(document).ready( function() {
+
+         i = 0
+         obfcount = 0
+         charobfcount = 0
+         detailsbtn = document.getElementById('details')
+         detailsbtn.addEventListener("click", function(e){
+            document.getElementById("ultra").remove()
+             //document.getElementById("site").className = 'masthead bg-primary text-itar text-center bg-primary-white'
+             newultra = document.createElement('DIV')
+             newultra.id = "codeultra"
+
+
+
+
+             codeanal = document.createElement('div')
+             codeanal.classList.add('codeanal')
+             //br4 = document.createElement("br")
+             codeanal.innerHTML = "Code Analysis"
+             newultra.appendChild(codeanal)
+             //newultra.appendChild(br4)
+             violations = {{ violation|tojson }}
+             violationfiles = {{ viofiles|tojson }}
+             violator = {{ violator|tojson }}
+             viodesc = {{ viodesc|tojson }}
+             console.log({{ vcount|tojson }})
+             while (i < violations.length){
+                 if (violations[i] == "charobf" && charobfcount >= 3){
+                     charobfcount = charobfcount + 1
+                     i = i + 1
+                 }
+                 else if (violations[i] == "obf" && obfcount >= 3){
+                     obfcount = obfcount + 1
+                     i = i + 1
+                 }
+                 else {
+                     if (violations[i] == "charobf"){
+                         charobfcount = charobfcount + 1
+                     }
+                     if (violations[i] == "obf"){
+                         obfcount = obfcount + 1
+                     }
+                     divcreator = document.createElement('DIV')
+                     divcreator.classList.add('rtext')
+                     //inspan = document.createElement('SPAN')
+                     violationfilespan = document.createElement('SPAN')
+                     violatorspan = document.createElement('SPAN')
+                     viodescspan = document.createElement('SPAN')
+                     br = document.createElement("br")
+                     br2 = document.createElement("br")
+                     br3 = document.createElement("br")
+                     //inspan.innerhtml = "Indsadasd ";
+                     violationfilespan.innerHTML = violationfiles[i]
+                     violationfilespan.classList.add('boldify')
+                     violatorspan.innerHTML = violator[i]
+                     viodescspan.innerHTML = viodesc[i]
+
+                     //divcreator.appendChild(inspan)
+                     divcreator.appendChild(violationfilespan)
+                     divcreator.appendChild(br)
+                     divcreator.appendChild(violatorspan)
+                     divcreator.appendChild(br2)
+                     divcreator.appendChild(viodescspan)
+
+
+                     newultra.appendChild(divcreator)
+                     newultra.appendChild(br3)
+                     i = i + 1
+
+                 }
+             }
+             if (violations.length == 0){
+                 divcreator = document.createElement('DIV')
+                 br = document.createElement("br")
+                 divcreator.classList.add('rtext')
+                 nothinghere = document.createElement('SPAN')
+                 nothinghere.innerHTML = "Nothing here"
+                 divcreator.appendChild(nothinghere)
+
+                 newultra.appendChild(divcreator)
+                 newultra.appendChild(br)
+
+             }
+             back = document.createElement('a')
+             back.innerHTML = "Back"
+             back.id = 'backbtn'
+             back.addEventListener("click", function(e) {
+                 location.reload()
+             })
+             newultra.appendChild(back)
+
+
+
+
+
+
+
+             wrapper = document.getElementById("wrapper")
+             wrapper.appendChild(newultra)
+
+        })
+
+     })
+     if ({{ confidence }} == 0){
+         document.getElementById("confi").innerHTML = "File not present in database!"
+
+         var audit = document.createElement('SPAN')
+         audit.innerHTML = "Mod Creator? Get your mod audited at our discord"
+         document.getElementById('cfd').appendChild(audit)
+     }
+     if ("{{isthisarat}}" == 'No' && {{ confidence }} > 0){
+        document.getElementById('site').classList.add('bg-primary-green')
+         document.getElementById('details').classList.add('detailsgreen')
+         document.getElementById("aiconfidence").innerHTML = {{ aiconfno }}
+
+             document.description = 'No, this file is not a rat ✅'
+         }
+     if ("{{isthisarat}}" == 'No' && {{ confidence }} == 0){
+        document.getElementById('site').classList.add('bg-primary-yellow')
+         document.getElementById('details').classList.add('detailsyellow')
+
+         document.getElementById("aiconfidence").innerHTML = {{ aiconfno }}
+
+         document.description = "⚠ Caution, we don't think this is a RAT but have not audited it ⚠"
+
+         }
+     if ("{{isthisarat}}" == 'Yes'){
+        document.getElementById('site').classList.add('bg-primary-red')
+         document.getElementById('details').classList.add('detailsred')
+
+         document.getElementById("aiconfidence").innerHTML = {{ aiconfyes }}
+             document.description = '‼‼ Yes, this file is a rat ‼‼ '
+         }
+     if ("{{isthisarat}}" == 'Caution'){
+        document.getElementById('site').classList.add('bg-primary-yellow')
+         document.getElementById('details').classList.add('detailsyellow')
+
+         var audit = document.createElement('SPAN')
+         audit.innerHTML = "Mod Creator? Get your mod audited at our discord"
+         document.getElementById('cfd').appendChild(audit)
+         }
+     if ({{ confidence }} > 0){
+         document.getElementById("confidence").innerHTML = {{ confidence }}
+        document.getElementById("ai_internal").innerHTML = ''
+     }
+
+
+
+    </script>
+{% endblock %}
