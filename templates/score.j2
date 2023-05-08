@@ -57,12 +57,12 @@
     {%- endif -%}
     <details>
       <summary class="cursor-pointer rounded-xl bg-secondary-bg fileinfo">
-        File info
+        File Info
       </summary>
       <p class="mt-4">MD5: {{ md5hash }}</p>
       <!-- <p class="mt-2">Potential flags:</p> -->
       {% for flag in violator %}
-        <div class="flagmargin rounded-xl bg-secondary-bg p-4">
+        <div class="flagmargin rounded-xl bg-secondary-bg p-4" onclick="copyToClipboard(this)">
           <p>
             <span class="font-mono flag">{{ flag }}</span> in
             <span class="font-mono viofile">{{ viofiles[loop.index - 1] }}</span>
@@ -73,4 +73,15 @@
       {% endfor %}
     </details>
   </main>
+   <script>
+		function copyToClipboard(elem) {
+		  const range = document.createRange();
+		  range.selectNodeContents(elem);
+		  const selection = window.getSelection();
+		  selection.removeAllRanges();
+		  selection.addRange(range);
+		  document.execCommand('copy');
+		  selection.removeAllRanges();
+		}
+   </script>
 {% endblock %}

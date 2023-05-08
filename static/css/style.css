@@ -28,13 +28,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #141c24;
+  background-color: #0f172a;
   border-radius: 10px;
 }
 
 /* For Firefox */
 * {
-  scrollbar-color: #141c24 transparent;
+  scrollbar-color: #0f172a transparent;
   scrollbar-width: thin;
  
 }
@@ -43,6 +43,16 @@
 	margin-top: 0.75rem;
 }
 
+.flagmargin:hover{
+	border-width: 2px;
+	border-color: #1d4ed8;
+}
+
 .fileinfo{
 	padding: 0.75rem;
+}
+
+.fileinfo:hover{
+	background-color: #1d4ed8;
+	transition: 0.3s;
 }
