@@ -85,6 +85,5 @@ def scorepage(rawhash):
     else:
         return "This file has not been scanned yet or needs to be rescanned", 404
 
-
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
