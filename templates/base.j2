@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/static/assets/img/favicon.png" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tailwindcss@3.3.2/src/css/preflight.css"
+    />
+    <link rel="stylesheet" href="/static/css/font.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+
+  <body class="bg-primary-bg text-primary-text">
+    {% block content %}{% endblock %}
+    <script>
+      const html = (literals, ...substitutions) => {
+        let result = "";
+        for (let i = 0; i < substitutions.length; i++) {
+          result += literals[i];
+          result += substitutions[i];
+        }
+        result += literals[literals.length - 1];
+        const elem = document
+          .createRange()
+          .createContextualFragment(result.trim());
+        return elem.children.length > 1 ? elem : elem.firstChild;
+      };
+    </script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

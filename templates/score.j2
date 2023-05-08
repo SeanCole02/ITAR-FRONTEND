@@ -1,0 +1,75 @@
+{% extends "base.j2" %}
+{% block title %}
+  {%- if isthisarat == "Yes" -%}
+    This file is a rat
+  {%- elif isthisarat == "Caution" -%}
+    This file might be a rat
+  {%- else -%}
+    This file is not a rat
+  {%- endif -%}
+{% endblock %}
+<!-- prettier-ignore-start -->
+{%- block description -%}
+  Is This A Rat classified this file as {# #}
+  {%- if isthisarat == "Yes" -%}
+    a rat!
+    {%- elif isthisarat == "Caution" -%}
+    possibly a rat.
+  {%- else -%}
+    not a rat.
+  {% endif %}
+  {%- if confidence == 0 -%}
+    &#10;(That's a guess using AI, {{ aiconfyes if isthisarat == "Yes" else aiconfno }}% confidence)
+  {%- endif -%}
+{%- endblock -%}
+<!-- prettier-ignore-end -->
+{% block content %}
+  {% include "header.j2" %}
+  <style>
+    .saturated-red {
+      color: var(--saturated-red);
+    }
+    .saturated-yellow {
+      color: var(--saturated-yellow);
+    }
+    .saturated-green {
+      color: var(--saturated-green);
+    }
+  </style>
+  <main class="mx-auto my-4 w-[65ch]">
+    <h1 class="font-heading text-5xl font-bold">
+      This file is {# #}
+      {%- if isthisarat == "Yes" -%}
+        <span class="saturated-red">a rat.</span>
+      {%- elif isthisarat == "Caution" -%}
+        <span class="saturated-yellow">possibly a rat.</span>
+      {%- else -%}
+        <span class="saturated-green">not a rat.</span>
+      {%- endif -%}
+    </h1>
+    {%- if confidence == 0 -%}
+      <p class="my-4">
+        (That's a guess using AI,
+        {{ aiconfyes if isthisarat == "Yes" else aiconfno }}% confidence)
+      </p>
+    {%- else -%}
+      <p class="my-4">We manually confirmed that.</p>
+    {%- endif -%}
+    <details>
+      <summary class="cursor-pointer rounded-xl bg-secondary-bg p-2">
+        File info
+      </summary>
+      <p class="mt-4">MD5: {{ md5hash }}</p>
+      <p class="mt-2">Potential flags:</p>
+      {% for flag in violator %}
+        <div class="mt-2 rounded-xl bg-secondary-bg p-4">
+          <p>
+            <span class="font-mono">{{ flag }}</span> in
+            <span class="font-mono">{{ viofiles[loop.index - 1] }}</span>
+          </p>
+          <p>{{ viodesc[loop.index - 1] }}</p>
+        </div>
+      {% endfor %}
+    </details>
+  </main>
+{% endblock %}

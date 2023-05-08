@@ -1,0 +1,128 @@
+{% extends "base.j2" %}
+{% block title %}Is This a Rat? 🤔{% endblock %}
+{% block description %}AI powered .jar RAT classification{% endblock %}
+{% block content %}
+  <div class="fixed top-0 w-full">{% include "header.j2" %}</div>
+  <div class="flex min-h-screen flex-col items-center justify-center gap-4">
+    <div class="flex rounded-xl bg-secondary-bg font-bold text-secondary-text">
+      <button
+        class="active w-40 rounded-l-xl p-4 transition hover:bg-black/10 dark:hover:bg-white/10"
+        id="fileButton"
+      >
+        FILE
+      </button>
+      <button
+        class="w-40 rounded-r-xl p-4 transition hover:bg-black/10 dark:hover:bg-white/10"
+        id="discordButton"
+      >
+        DISCORD URL
+      </button>
+    </div>
+    <form
+      action="/filehandler"
+      method="POST"
+      enctype="multipart/form-data"
+      class="contents"
+    >
+      <label
+        id="uploadButton"
+        class="active block cursor-pointer rounded-xl px-6 py-4"
+      >
+        Choose File
+        <input type="file" class="hidden" accept=".jar" name="fileupload" />
+      </label>
+    </form>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="module">
+    import { md5 } from "https://cdn.jsdelivr.net/npm/hash-wasm/+esm";
+    let fileData = {};
+    const handleFile = async (e) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const form = document.querySelector("form");
+      const hashing = html`<p>Hashing...</p>`;
+      form.append(hashing);
+
+      let buffer = await file.arrayBuffer();
+      fileData = {
+        buffer,
+        hash: await md5(new Uint8Array(buffer)),
+      };
+
+      const testResp = await fetch("/score/" + fileData.hash);
+      if (testResp.status == 200) {
+        window.location = "/score/" + fileData.hash;
+        return;
+      }
+      const confirm = html`<button class="active block rounded-xl px-6 py-4">
+        Confirm Upload
+      </button>`;
+      confirm.onclick = uploadFile;
+      form.replaceChildren(confirm);
+    };
+    const uploadFile = async () => {
+      const form = document.querySelector("form");
+      form.innerHTML = `<div
+          class="flex h-4 w-80 rounded-full bg-secondary-bg"
+        >
+          <div
+            class="progressElem rounded-full bg-blue-700 transition-all"
+          ></div>
+        </div>
+        <p>Uploading...</p>`;
+      const progressElem = form.querySelector(".progressElem");
+
+      const formData = new FormData();
+      formData.append("fileupload", new File([fileData.buffer], "file.jar"));
+
+      const xhr = new XMLHttpRequest();
+      const data = await new Promise((resolve) => {
+        xhr.upload.addEventListener("progress", (event) => {
+          if (event.lengthComputable) {
+            console.log((event.loaded / event.total) * 100);
+            progressElem.style.width = (event.loaded / event.total) * 100 + "%";
+          }
+        });
+        xhr.addEventListener("loadend", () => {
+          resolve(xhr.responseText);
+        });
+        xhr.open("POST", "/filehandler", true);
+        xhr.send(formData);
+      });
+      window.location = "/score/" + data;
+    };
+    document.querySelector("input").onchange = handleFile;
+    document.querySelector("#fileButton").onclick = () => {
+      document.querySelector("#fileButton").classList.add("active");
+      document.querySelector("#discordButton").classList.remove("active");
+      const form = document.querySelector("form");
+      form.action = "/filehandler";
+      form.innerHTML = `
+<label
+  id="uploadButton"
+  class="block cursor-pointer rounded-xl active px-6 py-4"
+>
+  Choose File
+  <input type="file" class="hidden" accept=".jar" name="file" />
+</label>`;
+      document.querySelector("input").onchange = handleFile;
+    };
+    document.querySelector("#discordButton").onclick = () => {
+      document.querySelector("#discordButton").classList.add("active");
+      document.querySelector("#fileButton").classList.remove("active");
+      const form = document.querySelector("form");
+      form.action = "/linkhandler";
+      form.innerHTML = `
+<input
+  name="linkinput"
+  class="block rounded-xl bg-secondary-bg px-6 py-4"
+  placeholder="URL"
+/>
+<button class="block rounded-xl active px-6 py-4">Submit</button>
+`;
+    };
+  </script>
+{% endblock %}
