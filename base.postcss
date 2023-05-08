@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  --primary-background: theme("colors.slate.100");
+  --secondary-background: theme("colors.slate.200");
+  --primary-text: theme("colors.slate.900");
+  --secondary-text: theme("colors.slate.800");
+  --saturated-red: theme("colors.red.700");
+  --saturated-yellow: theme("colors.yellow.700");
+  --saturated-green: theme("colors.green.700");
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    --primary-background: theme("colors.slate.900");
+    --secondary-background: theme("colors.slate.800");
+    --primary-text: theme("colors.slate.100");
+    --secondary-text: theme("colors.slate.200");
+    --saturated-red: theme("colors.red.200");
+    --saturated-yellow: theme("colors.yellow.200");
+    --saturated-green: theme("colors.green.200");
+  }
+}
+.active {
+  @apply bg-blue-700 text-white !important;
+}

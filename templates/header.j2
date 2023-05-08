@@ -1,0 +1,26 @@
+<header class="flex gap-2 bg-secondary-bg px-2 font-heading">
+  <a href="/">Is This A Rat</a>
+  <a href="/api">API</a>
+  <a href="https://ko-fi.com/isthisarat">Donate</a>
+  <a href="https://www.twitter.com/vytalow">Twitter</a>
+  <a href="https://discord.gg/M43uHJ3bzJ">Discord</a>
+</header>
+<style>
+  header > :first-child {
+    margin-right: auto;
+  }
+  header > * {
+    padding: 0.5rem;
+  }
+  header > a {
+    transition: background-color 150ms;
+  }
+  header > a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  @media (prefers-color-scheme: dark) {
+    header > a:hover {
+      background-color: rgba(255, 255, 255 0.2);
+    }
+  }
+</style>
