@@ -26,7 +26,7 @@
     >
       <label
         id="uploadButton"
-        class="active block cursor-pointer rounded-xl px-6 py-4"
+        class="active block cursor-pointer rounded-xl px-6 py-4 btntext"
       >
         Choose File
         <input type="file" class="hidden" accept=".jar" name="fileupload" />
@@ -57,7 +57,7 @@
         window.location = "/score/" + fileData.hash;
         return;
       }
-      const confirm = html`<button class="active block rounded-xl px-6 py-4">
+      const confirm = html`<button class="active block rounded-xl px-6 py-4 btntext">
         Confirm Upload
       </button>`;
       confirm.onclick = uploadFile;
@@ -72,7 +72,7 @@
             class="progressElem rounded-full bg-blue-700 transition-all"
           ></div>
         </div>
-        <p>Uploading...</p>`;
+        <p class="btntext">Uploading...</p>`;
       const progressElem = form.querySelector(".progressElem");
 
       const formData = new FormData();
@@ -103,7 +103,7 @@
       form.innerHTML = `
 <label
   id="uploadButton"
-  class="block cursor-pointer rounded-xl active px-6 py-4"
+  class="block cursor-pointer rounded-xl active px-6 py-4 btntext"
 >
   Choose File
   <input type="file" class="hidden" accept=".jar" name="file" />
@@ -121,7 +121,7 @@
   class="block rounded-xl bg-secondary-bg px-6 py-4"
   placeholder="URL"
 />
-<button class="block rounded-xl active px-6 py-4">Submit</button>
+<button class="block rounded-xl active px-6 py-4 btntext">Submit</button>
 `;
     };
   </script>
