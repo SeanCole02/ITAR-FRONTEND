@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = ""
+API_KEY = "y7U327njdfg21"
 param_cache = {}
 
 
