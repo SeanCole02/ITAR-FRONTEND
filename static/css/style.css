@@ -7,6 +7,15 @@
 .btntext{
 	font-weight: bold;
 }
+.btntext:hover{
+	background-color: #1842ba !important;
+	transition: 0.25s;
+}
+
+#discordButton:hover{
+	transition: 0.25s;
+}
+
 .flag{
 	color: #3ba6ed;
 	font-weight: bold;
@@ -39,12 +48,38 @@
  
 }
 
+.md5yellow{
+	margin-top: 0.75rem;
+	border-width: 3px;
+	border-color: #ffe600;
+	font-weight: bold;
+	font-size:12px;
+}
+
+.md5red{
+	margin-top: 0.75rem;
+	border-width: 3px;
+	border-color: #ff4a4a;
+	font-weight: bold;
+	font-size:12px;
+}
+
+.md5green{
+	margin-top: 0.75rem;
+	border-width: 3px;
+	border-color: #4aff68;
+	font-weight: bold;
+	font-size:12px;
+}
+
 .flagmargin{
 	margin-top: 0.75rem;
+	border-width: 3px;
+	border-color: transparent;
 }
 
 .flagmargin:hover{
-	border-width: 2px;
+	border-width: 3px;
 	border-color: #1d4ed8;
 }
 
@@ -54,7 +89,7 @@
 
 .fileinfo:hover{
 	background-color: #1d4ed8;
-	transition: 0.3s;
+	transition: 0.25s;
 }
 
 .typewriter{
@@ -65,6 +100,15 @@
   animation: 
     typing 1.3s steps(25, end),
     blink-caret .75s step-end infinite;
+}
+
+.arat{
+	animation: 1.5s infinite alternate ease-out breathing-color--red;
+}
+
+
+.notarat{
+	animation: 1.5s infinite alternate ease-out breathing-color--green;
 }
 
 /* The typing effect */
@@ -78,3 +122,25 @@
   from, to { border-color: transparent }
   50% { border-color: white; }
 }
+
+@keyframes breathing-color--red {
+    from
+    {
+        color: #fecaca;
+    }
+    to
+    {
+        color: #ffa3a3;
+    }
+
+@keyframes breathing-color--green {
+    from
+    {
+        color: #bbf7d0;
+    }
+    to
+    {
+        color: #9cf7bc;
+    }	
+	
+	
