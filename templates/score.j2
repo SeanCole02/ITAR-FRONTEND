@@ -40,11 +40,11 @@
     <h1 class="font-heading text-5xl font-bold typewriter">
       This file is {# #}
       {%- if isthisarat == "Yes" -%}
-        <span class="saturated-red">a rat.</span>
+        <span class="saturated-red arat">a rat.</span>
       {%- elif isthisarat == "Caution" -%}
         <span class="saturated-yellow">possibly a rat.</span>
       {%- else -%}
-        <span class="saturated-green">not a rat.</span>
+        <span class="saturated-green notarat">not a rat.</span>
       {%- endif -%}
     </h1>
     {%- if confidence == 0 -%}
@@ -59,7 +59,15 @@
       <summary class="cursor-pointer rounded-xl bg-secondary-bg fileinfo">
         File Info
       </summary>
-      <p class="mt-4">MD5: {{ md5hash }}</p>
+	  {%- if confidence == 0 -%}
+		<p class="md5yellow rounded-xl p-2">MD5: {{ md5hash }}</p>
+	  {%- else -%}
+			{%- if isthisarat == "Yes" -%}
+				<p class="md5green rounded-xl p-2">MD5: {{ md5hash }}</p>
+			{%- else -%}
+				<p class="md5red rounded-xl p-2">MD5: {{ md5hash }}</p>
+			{%- endif -%}
+	  {%- endif -%}
       <!-- <p class="mt-2">Potential flags:</p> -->
       {% for flag in violator %}
         <div class="flagmargin rounded-xl bg-secondary-bg p-4" onclick="copyToClipboard(this)">
