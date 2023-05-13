@@ -29,15 +29,15 @@ def filehandler():
     api_data = api_data.json()
     for param in api_data:
         param_cache.update({param: api_data[param]})
-    md5hash = api_data["md5hash"]
-    return md5hash
+    sha256 = api_data["sha256"]
+    return sha256
 
 
 @app.route("/score/<rawhash>", methods=["GET"])
 def scorepage(rawhash):
     mongoobj = param_cache
     print(param_cache)
-    if "md5hash" in mongoobj:
+    if "sha256" in mongoobj:
         isthisarat = mongoobj["isthisarat"]
         confidence = mongoobj["confidence"]
         hashvalue = mongoobj["hashvalue"]
