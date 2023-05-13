@@ -36,7 +36,7 @@
 {% endblock %}
 {% block scripts %}
   <script type="module">
-    import { md5 } from "https://cdn.jsdelivr.net/npm/hash-wasm/+esm";
+    import { sha256 } from "https://cdn.jsdelivr.net/npm/hash-wasm/+esm";
     let fileData = {};
     const handleFile = async (e) => {
       const file = event.target.files[0];
@@ -49,7 +49,7 @@
       let buffer = await file.arrayBuffer();
       fileData = {
         buffer,
-        hash: await md5(new Uint8Array(buffer)),
+        hash: await sha256(new Uint8Array(buffer)),
       };
 
       const testResp = await fetch("/score/" + fileData.hash);
