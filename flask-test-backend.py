@@ -41,7 +41,7 @@ def scorepage(rawhash):
         isthisarat = mongoobj["isthisarat"]
         confidence = mongoobj["confidence"]
         hashvalue = mongoobj["hashvalue"]
-        md5hash = mongoobj["md5hash"]
+        sha256 = mongoobj["sha256"]
         aiconfyes = mongoobj["aiconfyes"]
         aiconfno = mongoobj["aiconfno"]
         sigstring = mongoobj["sigstring"]
@@ -55,7 +55,7 @@ def scorepage(rawhash):
             isthisarat,
             confidence,
             hashvalue,
-            md5hash,
+            sha256,
             aiconfyes,
             aiconfno,
             sigstring,
@@ -71,7 +71,7 @@ def scorepage(rawhash):
             isthisarat=isthisarat,
             confidence=confidence,
             hashvalue=hashvalue,
-            md5hash=md5hash,
+            sha256=sha256,
             aiconfyes=aiconfyes,
             aiconfno=aiconfno,
             sigstring=sigstring,

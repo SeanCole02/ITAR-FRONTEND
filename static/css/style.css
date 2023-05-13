@@ -20,6 +20,8 @@
 	color: #3ba6ed;
 	font-weight: bold;
 }
+
+
 .outcome{
 	margin-top: 5rem;
 	margin-bottom: 1rem;
@@ -51,7 +53,7 @@
 .md5yellow{
 	margin-top: 0.75rem;
 	border-width: 3px;
-	border-color: #ffe600;
+	border-color: #faef89;
 	font-weight: bold;
 	font-size:12px;
 }
@@ -59,7 +61,7 @@
 .md5red{
 	margin-top: 0.75rem;
 	border-width: 3px;
-	border-color: #ff4a4a;
+	border-color: #ff8c8c;
 	font-weight: bold;
 	font-size:12px;
 }
@@ -67,7 +69,7 @@
 .md5green{
 	margin-top: 0.75rem;
 	border-width: 3px;
-	border-color: #4aff68;
+	border-color: #8bfc9e;
 	font-weight: bold;
 	font-size:12px;
 }
@@ -81,6 +83,7 @@
 .flagmargin:hover{
 	border-width: 3px;
 	border-color: #1d4ed8;
+	transition: 0.25s;
 }
 
 .fileinfo{

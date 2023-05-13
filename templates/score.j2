@@ -60,12 +60,12 @@
         File Info
       </summary>
 	  {%- if confidence == 0 -%}
-		<p class="md5yellow rounded-xl p-2">MD5: {{ md5hash }}</p>
+		<p class="md5yellow rounded-xl p-2">MD5: {{ sha256 }}</p>
 	  {%- else -%}
 			{%- if isthisarat == "Yes" -%}
-				<p class="md5green rounded-xl p-2">MD5: {{ md5hash }}</p>
+				<p class="md5red rounded-xl p-2">MD5: {{ sha256 }}</p>
 			{%- else -%}
-				<p class="md5red rounded-xl p-2">MD5: {{ md5hash }}</p>
+				<p class="md5green rounded-xl p-2">MD5: {{ sha256 }}</p>
 			{%- endif -%}
 	  {%- endif -%}
       <!-- <p class="mt-2">Potential flags:</p> -->
